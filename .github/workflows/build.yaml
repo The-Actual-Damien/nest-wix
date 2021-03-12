@@ -22,8 +22,14 @@ jobs:
 
       - name: Install and build package
         run: |
-          yarn install
+          yarn install --silent
           yarn run build
+
+      - uses: actions/upload-artifact@main
+        if: matrix.node-version == '14.x'
+        with:
+          name: build artifacts
+          path: dist
 
   package:
     needs: [build]
@@ -36,7 +42,9 @@ jobs:
         with:
           node-version: 14.x
 
-      - run: yarn run build
+      - uses: actions/download-artifact@main
+        with:
+          name: build artifacts
 
       - run: yarn version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
 
