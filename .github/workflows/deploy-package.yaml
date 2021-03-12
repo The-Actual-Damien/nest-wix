@@ -14,11 +14,12 @@ jobs:
         run: |
           yarn install
           yarn run build
+          yarn pack
 
       - uses: actions/upload-artifact@main
         with:
-          name: build artifacts
-          path: dist/
+          name: package artifacts
+          path: "*.tgz"
 
   push-image:
     runs-on: ubuntu-latest
@@ -26,8 +27,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@main
         with:
-          name: build artifacts
-          path: dist
+          name: package artifacts
 
       - uses: actions/setup-node@v2
         with:
@@ -38,6 +38,6 @@ jobs:
       - run: echo "registry=https://npm.pkg.github.com/@ablause" >> .npmrc
 
       - name: Publish package
-        run: npm publish
+        run: npm publish $(ls *.tgz)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
