@@ -46,9 +46,9 @@ jobs:
         with:
           name: build artifacts
 
-      - run: yarn version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
+      - run: npm version prerelease --preid=ci-$GITHUB_RUN_ID --no-git-tag-version
 
-      - run: yarn pack
+      - run: npm pack
 
       - uses: actions/upload-artifact@main
         with:
