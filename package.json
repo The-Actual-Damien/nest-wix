@@ -6,9 +6,12 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@ablause"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ablause/next-wix.git"
+    "url": "https://github.com/ablause/nest-wix.git"
   },
   "files": [
     "dist"
