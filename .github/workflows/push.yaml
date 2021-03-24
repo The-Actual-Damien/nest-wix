@@ -68,3 +68,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_REGISTRY_URL: ${{ env.NPM_REGISTRY_URL }}
+          NPM_CONFIG_USERCONFIG: "~/.npmrc"
