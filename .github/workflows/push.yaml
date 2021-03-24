@@ -52,6 +52,8 @@ jobs:
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install && yarn build
 
+      - run: echo "//npm.pkg.github.com/:_authToken=${NPM_AUTH_TOKEN}" >> .npmrc
+
       - name: Publish
         uses: mikeal/merge-release@master
         env:
