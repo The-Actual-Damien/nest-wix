@@ -48,6 +48,8 @@ jobs:
           path: node_modules
           key: 12.x-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
 
+      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> /home/runner/work/_temp/.npmrc
+
       - name: Install & Build
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install && yarn build
