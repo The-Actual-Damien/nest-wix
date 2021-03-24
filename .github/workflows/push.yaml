@@ -41,6 +41,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14.x"
+          registry-url: "https://npm.pkg.github.com/"
+          scope: "@ablause"
+
+      - name: Check Version
+        id: check
+        run: EndBug/version-check@v1
+
       - name: Cache node_modules
         id: cache-modules
         uses: actions/cache@v1
@@ -48,15 +58,12 @@ jobs:
           path: node_modules
           key: 12.x-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
 
-      - run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> /home/runner/work/_temp/.npmrc
-
       - name: Install & Build
-        if: steps.cache-modules.outputs.cache-hit != 'true'
+        if: steps.check.outputs.changed == 'true' && steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install && yarn build
 
       - name: Publish
-        uses: frankdilo/merge-release@master
+        if: ${{ success() }}
+        run: npm publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_REGISTRY_URL: ${{ env.NPM_REGISTRY_URL }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
