@@ -47,10 +47,6 @@ jobs:
           registry-url: "https://npm.pkg.github.com/"
           scope: "@ablause"
 
-      - name: Check Version
-        id: check
-        run: EndBug/version-check@v2.0.1
-
       - name: Cache node_modules
         id: cache-modules
         uses: actions/cache@v2.1.4
@@ -59,11 +55,10 @@ jobs:
           key: 12.x-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
 
       - name: Install & Build
-        if: steps.check.outputs.changed == 'true' && steps.cache-modules.outputs.cache-hit != 'true'
+        if: steps.cache-modules.outputs.cache-hit != 'true'
         run: yarn install && yarn build
 
       - name: Publish
-        if: ${{ success() }}
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
