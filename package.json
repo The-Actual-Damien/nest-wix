@@ -19,6 +19,7 @@
   "ts-standard": {
     "project": "./tsconfig.json",
     "rules": {
+      "@typescript-eslint/no-extraneous-class": 0,
       "@typescript-eslint/no-floating-promises": [
         "error"
       ]
