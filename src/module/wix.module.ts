@@ -1,4 +1,4 @@
-import { Module, HttpModule, ModuleMetadata } from '@nestjs/common'
+import { Module, HttpModule, DynamicModule } from '@nestjs/common'
 
 import { WixService } from './wix.service'
 import { WixController } from './wix.controller'
@@ -11,7 +11,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter'
   exports: [WixService]
 })
 export class WixModule {
-  static forRoot (options: WixOptions): ModuleMetadata {
+  static forRoot (options: WixOptions): DynamicModule {
     return {
       module: WixModule,
       providers: [
