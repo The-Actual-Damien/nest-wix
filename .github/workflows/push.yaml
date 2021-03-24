@@ -21,7 +21,7 @@ jobs:
 
       - name: Cache node_modules
         id: cache-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.4
         with:
           path: node_modules
           key: ${{ matrix.node-version }}-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
@@ -49,11 +49,11 @@ jobs:
 
       - name: Check Version
         id: check
-        run: EndBug/version-check@v1
+        run: EndBug/version-check@v2.0.1
 
       - name: Cache node_modules
         id: cache-modules
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.4
         with:
           path: node_modules
           key: 12.x-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
