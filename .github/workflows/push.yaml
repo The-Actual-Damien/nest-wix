@@ -28,7 +28,10 @@ jobs:
 
       - name: Install & Build
         if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: yarn install && yarn build
+        run: yarn install
+
+      - name: Build package
+        run: yarn build
 
       - name: Test
         run: yarn test
@@ -54,9 +57,12 @@ jobs:
           path: node_modules
           key: 12.x-${{ runner.OS }}-build-${{ hashFiles('package.json') }}
 
-      - name: Install & Build
+      - name: Install
         if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: yarn install && yarn build
+        run: yarn install
+
+      - name: Build package
+        run: yarn build
 
       - name: Publish
         run: npm publish
