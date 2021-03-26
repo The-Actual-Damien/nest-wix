@@ -6,22 +6,19 @@ import {
   HttpException
 } from '@nestjs/common'
 import { map } from 'rxjs/operators'
-import { EventEmitter2 } from '@nestjs/event-emitter'
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
 
 import { WixOptions } from '../interfaces/WixOptions'
 import { WixAppInstance } from '../interfaces/WixAppInstance'
-
-const INSTANCE_API_URL = 'https://dev.wix.com/api/v1'
+import { WIX_INSTANCE_API_URL, WIX_MODULE_OPTIONS } from './wix.constant'
 
 @Injectable()
 export class WixService {
   constructor (
-    @Inject('WIX_OPTIONS')
+    @Inject(WIX_MODULE_OPTIONS)
     private readonly options: WixOptions,
-    private readonly httpService: HttpService,
-    private readonly eventEmitter: EventEmitter2
+    private readonly httpService: HttpService
   ) {}
 
   private async getTokensFromWix (
@@ -59,7 +56,7 @@ export class WixService {
       const { access_token } = await this.getAccessToken(refreshToken)
 
       const appInstance = axios.create({
-        baseURL: INSTANCE_API_URL,
+        baseURL: WIX_INSTANCE_API_URL,
         headers: { authorization: access_token }
       })
 
@@ -82,7 +79,7 @@ export class WixService {
 
   public async login (authorizationCode: string): Promise<any> {
     const { appId } = this.options
-    let refreshToken //accessToken
+    let refreshToken // accessToken
 
     try {
       const data = await this.getTokensFromWix(authorizationCode)
@@ -111,13 +108,13 @@ export class WixService {
 
     console.log('webhook: ', body)
 
-    const data = jwt.verify(body, appPublicKey)
+    const data = jwt.verify(body, appPublicKey ?? '')
 
     if (typeof data === 'string') {
       const parsedData = JSON.parse(data)
-      this.eventEmitter.emit('wix.webhook', parsedData)
+      // this.eventEmitter.emit('wix.webhook', parsedData)
     } else {
-      this.eventEmitter.emit('wix.webhook', data)
+      // this.eventEmitter.emit('wix.webhook', data)
     }
 
     return body

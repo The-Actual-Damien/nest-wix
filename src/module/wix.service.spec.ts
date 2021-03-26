@@ -1,6 +1,6 @@
 import { HttpModule } from '@nestjs/common'
-import { EventEmitterModule } from '@nestjs/event-emitter'
 import { Test, TestingModule } from '@nestjs/testing'
+import { WIX_MODULE_OPTIONS } from './wix.constant'
 import { WixService } from './wix.service'
 
 describe('WixService', () => {
@@ -8,8 +8,8 @@ describe('WixService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [EventEmitterModule.forRoot(), HttpModule],
-      providers: [{ provide: 'WIX_OPTIONS', useValue: {} }, WixService]
+      imports: [HttpModule],
+      providers: [{ provide: WIX_MODULE_OPTIONS, useValue: {} }, WixService]
     }).compile()
 
     service = module.get<WixService>(WixService)
