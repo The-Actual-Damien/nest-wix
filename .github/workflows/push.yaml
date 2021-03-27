@@ -33,8 +33,11 @@ jobs:
       - name: Build package
         run: yarn build
 
-      - name: Test
-        run: yarn test
+      # - name: Test
+      #   run: yarn test
+
+      - name: Test e2e
+        run: yarn test:e2e
 
   publish:
     name: Publish
