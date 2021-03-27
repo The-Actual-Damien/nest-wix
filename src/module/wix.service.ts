@@ -22,9 +22,7 @@ export class WixService {
   public async getTokensFromWix (authCode: string): Promise<TokensFromWixResult> {
     const { appId, appSecretKey } = this.options
 
-    const { href } = new URL('/access', WIX_AUTH_BASE_URL)
-
-    const { data } = await this.httpService.post<TokensFromWixResult>(href, {
+    const { data } = await this.httpService.post<TokensFromWixResult>(WIX_AUTH_BASE_URL, {
       code: authCode,
       client_id: appId,
       client_secret: appSecretKey,
@@ -37,9 +35,7 @@ export class WixService {
   public async getAccessToken (refreshToken): Promise<AccessTokenResult> {
     const { appId, appSecretKey } = this.options
 
-    const { href } = new URL('/access', WIX_AUTH_BASE_URL)
-
-    const { data } = await this.httpService.post<AccessTokenResult>(href, {
+    const { data } = await this.httpService.post<AccessTokenResult>(WIX_AUTH_BASE_URL, {
       refresh_token: refreshToken,
       client_secret: appSecretKey,
       client_id: appId,
