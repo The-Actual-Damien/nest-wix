@@ -1,4 +1,17 @@
-// https://dev.wix.com/api/rest/app-management/apps/app-instance/get-app-instance
+export interface SitePropertiesResult {
+  services: any
+  ressources: any
+  properties: any
+}
+
+export interface TokensFromWixResult {
+  refresh_token: string
+  access_token: string
+}
+
+export interface AccessTokenResult {
+  access_token: string
+}
 
 export interface WixAppInstance {
   instance: {

@@ -21,8 +21,8 @@ export class WixController {
   }
 
   @Get('login')
-  @Render('login')
-  async login (@Query('code') code: string): Promise<any> {
+  @Redirect('https://www.wix.com/_api/site-apps/v1/site-apps/token-received', 302)
+  async login (@Query('code') code: string): Promise<{ url: string }> {
     return await this.wixService.login(code)
   }
 

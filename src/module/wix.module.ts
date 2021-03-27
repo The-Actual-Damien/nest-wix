@@ -1,4 +1,5 @@
 import { Module, HttpModule, DynamicModule } from '@nestjs/common'
+import { ApplicationConfig } from '@nestjs/core'
 
 import { WixService } from './wix.service'
 import { WixController } from './wix.controller'
@@ -6,11 +7,11 @@ import { WIX_MODULE_OPTIONS } from './wix.constant'
 import { WixOptions, WixAsyncOptions } from '../interfaces/WixOptions'
 
 @Module({
-  imports: [HttpModule.register({ baseURL: 'https://www.wix.com' })],
+  imports: [ApplicationConfig, HttpModule],
   controllers: [WixController],
   exports: [WixService]
 })
-export class WixModule {
+export class WixModule { // eslint-disable-line
   public static forRoot (options: WixOptions): DynamicModule {
     return {
       module: WixModule,
